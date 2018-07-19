@@ -1,0 +1,8 @@
+---
+vlans:
+  10:
+    name: HO_INT_DATA
+  20:
+    name: HO_INT_VOIP
+  30:
+    name: HO_INT_BMS

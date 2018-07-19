@@ -1,0 +1,34 @@
+---
+
+- name: Setting up logging configuration
+  hosts: iou_l2
+
+  tasks:
+
+    - name: Collecting config from host
+      ios_facts:
+        gather_subset:
+          - config
+      register: "existing_config"
+
+    - name: run show config and check to see if output contains logging hosts
+      ios_command:
+        commands: "show running-config | include logging host" 
+      register: "existing_logging_config"
+
+    - name: Setting logging host
+      ios_logging:
+        dest: host
+        name: "{{ log_server }}"
+        state: present
+
+    - name: Print test info
+      debug: var=existing_logging_config.stdout_lines[0]
+
+    - name: Remove extra logging hosts
+      when: "(existing_logging_config.stdout_lines[0][0] != '') and (item not in log_server)"
+      with_items: "{{ existing_logging_config.stdout_lines[0] }}"
+      register: remove_logging_host
+      ios_config:
+        lines:
+          - "no {{ item }}"

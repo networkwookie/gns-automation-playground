@@ -1,0 +1,15 @@
+---
+
+- name: Setting Cisco Banners
+  hosts: poc_ios
+
+  tasks:
+    - name: Setting motd banner
+      ios_banner:
+        banner: motd
+        state: present
+        text: "{{ banner_motd }}"
+
+    - name: Save configuration when modified
+      ios_config:
+        save_when: changed

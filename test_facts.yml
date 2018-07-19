@@ -1,0 +1,9 @@
+---
+
+- name: Test getting facts
+  hosts: poc_ios
+
+  tasks:
+    - name: getting facts
+      ios_facts:
+        gather_subset: all

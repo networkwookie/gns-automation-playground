@@ -1,0 +1,37 @@
+---
+
+- name: Test getting facts
+  hosts: poc_ios
+  gather_facts: no
+
+  tasks:
+    - name: Get facts info from device
+      ios_facts:
+        gather_subset:
+          - hardware
+      register: hardware_info
+
+    - name: Setfact for version
+      set_fact:
+        ios_version: "{{ hardware_info.ansible_facts.ansible_net_version }}"
+
+    - name: Setfact for model
+      set_fact:
+        hardware_model: "{{ hardware_info.ansible_facts.ansible_net_model }}"
+
+    - name: Setfact for Serial Number
+      set_fact:
+        serial_number: "{{ hardware_info.ansible_facts.ansible_net_serialnum }}"
+
+    - name: Debug Version message
+      debug:
+        msg: "IOS Version = {{ ios_version }}"
+
+    - name: Debug model message
+      debug:
+        msg: "Model = {{ hardware_model }}"
+
+
+    - name: Debug serial number message
+      debug:
+        msg: "Serial Number= {{ serial_number }}"

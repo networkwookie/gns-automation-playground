@@ -1,0 +1,5 @@
+|Device |Model |IOS Version |Serial Number |
+|----------|-----------|-----------|----------|
+{% for device in groups['poc_ios'] %}
+|{{hostvars[device]['ansible_net_hostname']}}|{{hostvars[device]['ansible_net_model']}}|{{hostvars[device]['ansible_net_version']}}|{{hostvars[device]['ansible_net_serialnum']}}|
+{% endfor %}

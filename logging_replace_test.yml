@@ -1,0 +1,15 @@
+---
+
+- name: Setting up logging configuration
+  hosts: iou_l2
+
+  tasks:
+
+    - name: Setting logging host
+      ios_config:
+        lines:
+          - !
+          - "logging host {{ log_server }}"
+          - !
+        match: exact
+        replace: line

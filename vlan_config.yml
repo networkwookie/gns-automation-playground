@@ -1,0 +1,16 @@
+---
+
+- name: Setting up VLANs
+  hosts: iou_l2
+
+  tasks:
+    - name: Creating VLANs
+      ios_vlan:
+        vlan_id: "{{ item.key }}"
+        name: "{{ item.value.name }}"
+        state: present
+      with_dict: "{{ vlans }}"
+
+    - name: Save configuration when modified
+      ios_config:
+        save_when: always
